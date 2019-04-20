@@ -35,10 +35,16 @@ def application(environ, start_response):
         response_body = str(get_parameters).encode('utf-8')
 
     # router
-
+    routes = [
+        r'', handler,
+        
+    ]
 
 
     status = '200 OK'
+
+
+    # call router with requests object, return status{str}, response_body{str}
 
     response_headers = [
         ('Content-Type', 'text/html'),
@@ -47,4 +53,3 @@ def application(environ, start_response):
 
     start_response(status, response_headers)
     return [response_body]
-
