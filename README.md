@@ -6,7 +6,7 @@ sudo apt-get update && sudo apt-get install sqlite3 python3.6
 ``` 
 
 ### Framework feature list
-- [ ] get template from file
+- [x] get template from file
 - [ ] database connection
 - [x] router
 - [ ] is_ajax method
