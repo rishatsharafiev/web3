@@ -4,8 +4,9 @@ from settings import DATABASE_PATH
 
 
 def get_connection():
+    """Get database connection"""
     try:
         return connect(DATABASE_PATH)
-    except Error as e:
-        print("Error:{}".format(e.args[0]))
-        raise e
+    except Error as exp:
+        print("Error:{}".format(exp.args[0]))
+        raise exp

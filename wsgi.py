@@ -1,7 +1,7 @@
 import re
 from urllib.parse import parse_qs
 from html import escape
-from utils.http.status import STATUS_CHOICES, STATUS_NOT_FOUND, STATUS_INTERNAL_ERROR
+from utils.http.status import STATUS_CHOICES, STATUS_INTERNAL_ERROR
 from utils.views import internal_error, not_found
 
 from urls import url_patterns
@@ -15,7 +15,7 @@ def router(path_info, request):
             if groups:
                 return handler(request, groups)
     except Exception as exp:
-        print(f'Error: {exp}')
+        print('Error: {exp}'.format(exp=exp))
         return internal_error(request, groups)
     return not_found(request, groups)
 
