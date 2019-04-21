@@ -1,44 +1,10 @@
+import re
 from urllib.parse import parse_qs
 from html import escape
+from utils.http.status import STATUS_CHOICES, STATUS_NOT_FOUND, STATUS_INTERNAL_ERROR
+from utils.views import internal_error, not_found
+
 from urls import url_patterns
-import re
-
-STATUS_NOT_FOUND = '404 Not Found'
-STATUS_INTERNAL_ERROR = '500 Internal Server Error'
-
-STATUS_CHOICES = {
-    200: '200 OK',
-    201: '201 Created',
-    302: '301 Moved Permanently',
-    400: '400 Bad Request',
-    401: '401 Unauthorized',
-    403: '403 Forbidden',
-    404: STATUS_NOT_FOUND,
-    500: STATUS_INTERNAL_ERROR,
-}
-
-def not_found(request, groups):
-    response_headers = [
-        ('Content-Type', 'text/html'),
-    ]
-
-    response_status = 404
-
-    response_body = 'Page not found'
-
-    return (response_body, response_headers, response_status)
-
-
-def internal_error(request, groups):
-    response_headers = [
-        ('Content-Type', 'text/html'),
-    ]
-
-    response_status = 500
-
-    response_body = 'Internal Error'
-
-    return (response_body, response_headers, response_status)
 
 
 def router(path_info, request):
@@ -49,6 +15,7 @@ def router(path_info, request):
             if groups:
                 return handler(request, groups)
     except Exception as exp:
+        print(f'Error: {exp}')
         return internal_error(request, groups)
     return not_found(request, groups)
 

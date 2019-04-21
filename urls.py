@@ -1,5 +1,5 @@
-from views import test
+from views import add_comment
 
 url_patterns = (
-    (r'^/test/(?P<pk>\d+)$', test),
+    (r'^/comment$', add_comment),
 )

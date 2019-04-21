@@ -7,11 +7,10 @@ sudo apt-get update && sudo apt-get install sqlite3 python3.6
 
 ### Framework feature list
 - [x] get template from file
-- [ ] database connection
+- [X] database connection
 - [x] router
-- [ ] is_ajax method
+- [x] is_ajax method
 - [x] request, response objects
-- [ ] middlewares
 - [ ] forms
 - [ ] tests
 - [ ] serve static files
@@ -33,3 +32,5 @@ sudo apt-get update && sudo apt-get install sqlite3 python3.6
 - [ ] factories
 - [ ] tests
 - [ ] forms
+- [ ] select/option with ajax
+- [ ] client side validation for email, phone etc
