@@ -1,5 +1,5 @@
-from views import add_comment
+from views import CommentView
 
 url_patterns = (
-    (r'^/comment$', add_comment),
+    (r'^/comment$', CommentView.add),
 )
