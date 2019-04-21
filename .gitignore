@@ -110,7 +110,7 @@ test.json
 .directory
 
 #db-files
-db.sqlite3
+*.sqlite3
 
 .proxy
 devops/backups/
