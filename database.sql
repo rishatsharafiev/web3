@@ -35,7 +35,7 @@ CREATE TABLE comment (
     last_name varchar(255) NOT NULL,
     phone varchar(255) NULL,
     email varchar(255) NULL,
-    comment text NOT NULL,
+    text text NOT NULL,
     city_id INTEGER NOT NULL,
     CONSTRAINT fk_cities
         FOREIGN KEY (city_id)
