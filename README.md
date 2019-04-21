@@ -1,15 +1,15 @@
 # Web3
 
 ### Framework feature list
-- [ ] get template from file 
-- [ ] router
+- [ ] get template from file
+- [x] router
 - [ ] is_ajax method
-- [ ] request, response objects
+- [x] request, response objects
 - [ ] middlewares
 - [ ] forms
 - [ ] tests
 - [ ] serve static files
-
+- [ ] refactoring
 
 ### Application feature list
 - [ ] add comments
@@ -18,7 +18,7 @@
 - [ ] delete comments
 - [ ] show statistic
 - [ ] repositories
-- [ ] views
+- [x] views
 - [ ] controllers
 - [ ] services
 - [ ] entities

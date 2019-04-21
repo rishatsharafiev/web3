@@ -2,7 +2,7 @@
 
 from wsgiref.simple_server import make_server
 
-from conf.wsgi import application
+from wsgi import application
 
-httpd = make_server('localhost', 8051, application)
+httpd = make_server('localhost', 8080, application)
 httpd.serve_forever()

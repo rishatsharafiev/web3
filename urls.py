@@ -1,5 +1,5 @@
-from apps.
+from views import test
 
 url_patterns = (
-    r'', 
+    (r'^/test/(?P<pk>\d+)$', test),
 )

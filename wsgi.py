@@ -1,6 +1,56 @@
 from urllib.parse import parse_qs
 from html import escape
+from urls import url_patterns
+import re
 
+STATUS_NOT_FOUND = '404 Not Found'
+STATUS_INTERNAL_ERROR = '500 Internal Server Error'
+
+STATUS_CHOICES = {
+    200: '200 OK',
+    201: '201 Created',
+    302: '301 Moved Permanently',
+    400: '400 Bad Request',
+    401: '401 Unauthorized',
+    403: '403 Forbidden',
+    404: STATUS_NOT_FOUND,
+    500: STATUS_INTERNAL_ERROR,
+}
+
+def not_found(request, groups):
+    response_headers = [
+        ('Content-Type', 'text/html'),
+    ]
+
+    response_status = 404
+
+    response_body = 'Page not found'
+
+    return (response_body, response_headers, response_status)
+
+
+def internal_error(request, groups):
+    response_headers = [
+        ('Content-Type', 'text/html'),
+    ]
+
+    response_status = 500
+
+    response_body = 'Internal Error'
+
+    return (response_body, response_headers, response_status)
+
+
+def router(path_info, request):
+    try:
+        for item in url_patterns:
+            pattern, handler = item
+            groups = re.search(pattern, path_info)
+            if groups:
+                return handler(request, groups)
+    except Exception as exp:
+        return internal_error(request, groups)
+    return not_found(request, groups)
 
 def application(environ, start_response):
     """Application handler"""
@@ -18,38 +68,39 @@ def application(environ, start_response):
         request_body = ''
 
     # query string
-    get_parameters = parse_qs(environ.get('QUERY_STRING', ''))
+    query_parameters = parse_qs(environ.get('QUERY_STRING', ''))
 
     # application/x-www-form-urlencoded
+    form_input = {}
     if environ.get('CONTENT_TYPE') == 'application/x-www-form-urlencoded':
-        form_input = {}
-
         for key, value in request_body.items():
             if isinstance(value, list):
                 form_input[key] = [escape(item) for item in value]
             else:
                 form_input[key] = escape(value)
 
-        response_body = str(form_input).encode('utf-8')
-    else:
-        response_body = str(get_parameters).encode('utf-8')
+    # request
+    request = {
+        'body': request_body,
+        'query_parameters': query_parameters,
+        'form_input': form_input,
+        'environ': environ,
+    }
 
     # router
-    routes = [
-        r'', handler,
-        
-    ]
+    path_info = environ.get('PATH_INFO', '/')
+    response_body, response_headers, response_status = router(path_info, request)
 
+    # body
+    response_body = response_body.encode('utf-8')
 
-    status = '200 OK'
+    # response status
+    response_status = STATUS_CHOICES.get(response_status, STATUS_INTERNAL_ERROR)
 
-
-    # call router with requests object, return status{str}, response_body{str}
-
+    # response headers
     response_headers = [
-        ('Content-Type', 'text/html'),
-        ('Content-Length', str(len(response_body)))
+        ('Content-Length', str(len(response_body))),  # must be after response_body last call
     ]
 
-    start_response(status, response_headers)
+    start_response(response_status, response_headers)
     return [response_body]
