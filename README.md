@@ -11,9 +11,7 @@ sudo apt-get update && sudo apt-get install sqlite3 python3.6
 - [x] router
 - [x] is_ajax method
 - [x] request, response objects
-- [-] forms
-- [-] tests
-- [-] refactoring
+- [ ] refactoring
 
 ### Application feature list
 - [x] database sql
@@ -22,14 +20,12 @@ sudo apt-get update && sudo apt-get install sqlite3 python3.6
 - [ ] factories
 - [ ] repositories
 - [ ] services
-- [ ] controllers
-- [-] forms
+- [ ] controller
 - [ ] views
 - [ ] add comments
 - [ ] ajax region/city list
 - [ ] show comments
 - [ ] delete comments
 - [ ] show statistic
-- [ ] tests
 - [ ] select/option with ajax
 - [ ] client side validation for email, phone etc
