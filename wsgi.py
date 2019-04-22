@@ -2,22 +2,13 @@ import re
 from urllib.parse import parse_qs
 from html import escape
 from utils.http.status import STATUS_CHOICES, STATUS_INTERNAL_ERROR
+from utils.http.request import Request
 from utils.views import internal_error, not_found
+from utils.urls import router
 
 from urls import url_patterns
 
 
-def router(path_info, request):
-    try:
-        for item in url_patterns:
-            pattern, handler = item
-            groups = re.search(pattern, path_info)
-            if groups:
-                return handler(request, groups)
-    except Exception as exp:
-        print('Error: {exp}'.format(exp=exp))
-        return internal_error(request, groups)
-    return not_found(request, groups)
 
 def application(environ, start_response):
     """Application handler"""
@@ -47,16 +38,16 @@ def application(environ, start_response):
                 form_input[key] = escape(value)
 
     # request
-    request = {
-        'body': request_body,
-        'query_parameters': query_parameters,
-        'form_input': form_input,
-        'environ': environ,
-    }
+    request = Request(
+        body=request_body,
+        query_parameters=query_parameters,
+        form_input=form_input,
+        environ=environ,
+    )
 
     # router
     path_info = environ.get('PATH_INFO', '/')
-    response_body, response_headers, response_status = router(path_info, request)
+    response_body, response_headers, response_status = router(url_patterns, path_info, request)
 
     # body
     response_body = response_body.encode('utf-8')
