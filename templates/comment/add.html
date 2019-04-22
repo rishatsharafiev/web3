@@ -7,9 +7,36 @@
     <title>Добавить комментарий</title>
 </head>
 <body>
-    <form action="/comment" method="POST">
-        <input type="text" name="text">
+    <form action="/comment" method="POST" id="add_form">
+        Имя:<br>
+        <input type="text" name="first_name" id="first_name"><br>
+        Фамилия:<br>
+        <input type="text" name="last_name" id="last_name"><br>
         <input type="submit" value="Добавить">
     </form>
+    <script>
+        function ValidateRequired(id) {
+            var $element = document.getElementById(id);
+            if($element.value == '') {
+                $element.style.borderColor = 'red';
+                return false;
+            } else {
+                $element.style.borderColor = 'green';
+                return true;
+            }
+        }
+
+        function FormValidation(){
+            if(!ValidateRequired('first_name')) {return false;}
+            if(!ValidateRequired('last_name')) {return false;}
+        }
+
+        window.onload = function() {
+            var $add_form = document.getElementById('add_form');
+            $add_form.onsubmit = FormValidation;
+            $add_form.onchange = FormValidation;
+        }
+        
+    </script>
 </body>
 </html>
