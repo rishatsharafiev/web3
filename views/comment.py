@@ -1,6 +1,8 @@
 from utils.template import get_template
 from utils.views import not_found
 from utils.shortcuts import get_item
+from utils.http import redirect
+
 
 class CommentView:
     """Comment View"""
@@ -15,9 +17,7 @@ class CommentView:
         text_input = get_item(request.form_input.get('text', []), 'Hello')
 
         if request_method == 'POST':
-            response_body = get_template('comment/show.html').safe_substitute(**{'text_input': text_input})
-            response_status = 201
-            return (response_body, response_headers, response_status)
+            return redirect()
         elif request_method == 'GET':
             response_body = get_template('comment/add.html').safe_substitute()
             response_status = 200

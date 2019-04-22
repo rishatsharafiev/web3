@@ -5,14 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Добавить комментарий</title>
+    <style>
+        .row {
+            margin-bottom: 10px;
+        }
+
+        .field {
+            padding: 3px 6px;
+        }
+
+        .button {
+            color: black;
+            font-weight: 700;
+        }
+    </style>
 </head>
 <body>
     <form action="/comment" method="POST" id="add_form">
-        Имя:<br>
-        <input type="text" name="first_name" id="first_name"><br>
-        Фамилия:<br>
-        <input type="text" name="last_name" id="last_name"><br>
-        <input type="submit" value="Добавить">
+        <div class="row">
+            Имя: <input type="text" name="first_name" id="first_name" class="field" placeholder="Ваше Имя">
+        </div>
+        <div class="row">
+            Фамилия: <input type="text" name="last_name" id="last_name" class="field" placeholder="Ваша Фамилия">
+        </div>
+        <div class="row">
+            <input type="submit" value="Добавить" class="button">
+        </div>
     </form>
     <script>
         function ValidateRequired(id) {

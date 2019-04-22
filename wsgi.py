@@ -56,9 +56,9 @@ def application(environ, start_response):
     response_status = STATUS_CHOICES.get(response_status, STATUS_INTERNAL_ERROR)
 
     # response headers
-    response_headers = [
+    response_headers.extend([
         ('Content-Length', str(len(response_body))),  # must be after response_body last call
-    ]
+    ])
 
     start_response(response_status, response_headers)
     return [response_body]
