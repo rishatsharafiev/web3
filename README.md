@@ -8,7 +8,14 @@ sudo apt-get update && sudo apt-get install sqlite3 python3.6
 ### Run server
 ```
 python3 server.py
-``` 
+```
+
+### Open browser
+```
+google-chrome http://localhost:8080/comment/
+google-chrome http://localhost:8080/view/
+google-chrome http://localhost:8080/stat/
+```
 
 ### Framework feature list
 - [x] get template from file
