@@ -16,12 +16,12 @@ sudo apt-get update && sudo apt-get install sqlite3 python3.6
 ### Application feature list
 - [x] database sql
 - [x] fixtures
-- [ ] entities
-- [ ] repositories
+- [x] entities
+- [x] repositories
 - [ ] views
 - [ ] add comments
 - [X] ajax region/city list
 - [ ] show comments
 - [ ] delete comments
 - [ ] show statistic
-- [ ] client side validation for email, phone etc
+- [X] client side validation for email, phone etc

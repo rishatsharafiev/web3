@@ -51,7 +51,33 @@
         </div>
     </form>
     <script>
-        function ValidateRequired(id) {
+        function emailTest(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function phoneTest(phone) {
+            var re = /^\(\d{3}\)\s\d{7}$/;
+            return re.test(phone);
+        }
+
+        function phoneFormat(input){
+            input = input.replace(/\D/g,'');
+
+            input = input.substring(0,10);
+
+            var size = input.length;
+            if (size == 0) {
+                input = input;
+            } else if (size < 4) {
+                input = '(' + input;
+            }  else {
+                input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 10);
+            }
+            return input; 
+        }
+
+        function isRequired(id) {
             var $element = document.getElementById(id);
             if($element.value == '') {
                 $element.style.borderColor = 'red';
@@ -62,10 +88,40 @@
             }
         }
 
-        function FormValidation(){
-            if(!ValidateRequired('last_name')) {return false;}
-            if(!ValidateRequired('first_name')) {return false;}
-            if(!ValidateRequired('text')) {return false;}
+        function validatePhone(id) {
+            var $element = document.getElementById(id);
+            if($element.value == '') {
+                $element.style.borderColor = null;
+                return true;
+            } else if(!phoneTest($element.value)) {
+                $element.style.borderColor = 'red';
+                return false;
+            } else {
+                $element.style.borderColor = 'green';
+                return true;
+            }
+        }
+
+        function validateEmail(id) {
+            var $element = document.getElementById(id);
+            if($element.value == '') {
+                $element.style.borderColor = null;
+                return true;
+            } else if(!emailTest($element.value)) {
+                $element.style.borderColor = 'red';
+                return false;
+            } else {
+                $element.style.borderColor = 'green';
+                return true;
+            }
+        }
+
+        function formValidation(){
+            if(!isRequired('last_name')) {return false;}
+            if(!isRequired('first_name')) {return false;}
+            if(!validatePhone('phone')) {return false;}
+            if(!validateEmail('email')) {return false;}
+            if(!isRequired('text')) {return false;}
         }
 
         function fillCities() {
@@ -99,13 +155,20 @@
         window.onload = function() {
             /* validate form fields */ 
             var $add_form = document.getElementById('add_form');
-            $add_form.onsubmit = FormValidation;
-            $add_form.onchange = FormValidation;
+            $add_form.onsubmit = formValidation;
+            $add_form.onchange = formValidation;
 
             /* fill city options */ 
             fillCities();
             var $region = document.getElementById('region');
             $region.onchange = fillCities;
+
+            /* phone formatter */
+            $phone = document.getElementById('phone');
+            $phone.addEventListener('keyup',function(evt){
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                $phone.value = phoneFormat($phone.value);
+            });
         }
         
     </script>
