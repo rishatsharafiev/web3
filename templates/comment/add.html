@@ -23,10 +23,28 @@
 <body>
     <form action="/comment" method="POST" id="add_form">
         <div class="row">
+            Фамилия: <input type="text" name="last_name" id="last_name" class="field" placeholder="Ваша Фамилия">
+        </div>
+        <div class="row">
             Имя: <input type="text" name="first_name" id="first_name" class="field" placeholder="Ваше Имя">
         </div>
         <div class="row">
-            Фамилия: <input type="text" name="last_name" id="last_name" class="field" placeholder="Ваша Фамилия">
+            Отчество: <input type="text" name="second_name" id="second_name" class="field" placeholder="Ваше Отчество">
+        </div>
+        <div class="row">
+            Регион: <select size="1" name="region" id="region">$region_options</select>
+        </div>
+        <div class="row">
+            Город:  <select size="1" name="city" id="city"></select>
+        </div>
+        <div class="row">
+            Контактный телефон: <input type="text" name="phone" id="phone" class="field" placeholder="Ваш телефон">
+        </div>
+        <div class="row">
+            E-mail: <input type="email" name="email" id="email" class="field" placeholder="Ваш email">
+        </div>
+        <div class="row">
+            Комментарий: <textarea rows="10" cols="45" name="text" id="text" class="field" placeholder="Ваш комментарий"></textarea>
         </div>
         <div class="row">
             <input type="submit" value="Добавить" class="button">
@@ -45,14 +63,49 @@
         }
 
         function FormValidation(){
-            if(!ValidateRequired('first_name')) {return false;}
             if(!ValidateRequired('last_name')) {return false;}
+            if(!ValidateRequired('first_name')) {return false;}
+            if(!ValidateRequired('text')) {return false;}
+        }
+
+        function fillCities() {
+            var $region = document.getElementById('region');
+            var $city = document.getElementById('city');
+
+            if(Number.isInteger($region.selectedIndex)) {
+                var $region_id = $region.options[$region.selectedIndex].value;
+            }
+            
+            var xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                var cities = JSON.parse(this.responseText);
+
+                $city.innerHTML = '';
+
+                for (var i = 0, len = cities.length; i < len; i++) {
+                    var $option = document.createElement('option');
+                    $option.innerHTML = cities[i].name;
+                    $option.value = cities[i].id;
+                    $city.appendChild($option);
+                }
+            };
+
+            if($region_id) {
+                xhttp.open("GET", "/city/" + $region_id, true);
+                xhttp.send();
+            }
         }
 
         window.onload = function() {
+            /* validate form fields */ 
             var $add_form = document.getElementById('add_form');
             $add_form.onsubmit = FormValidation;
             $add_form.onchange = FormValidation;
+
+            /* fill city options */ 
+            fillCities();
+            var $region = document.getElementById('region');
+            $region.onchange = fillCities;
         }
         
     </script>

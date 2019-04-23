@@ -20,9 +20,8 @@ sudo apt-get update && sudo apt-get install sqlite3 python3.6
 - [ ] repositories
 - [ ] views
 - [ ] add comments
-- [ ] ajax region/city list
+- [X] ajax region/city list
 - [ ] show comments
 - [ ] delete comments
 - [ ] show statistic
-- [ ] select/option with ajax
 - [ ] client side validation for email, phone etc
