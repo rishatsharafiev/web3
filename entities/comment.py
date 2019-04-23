@@ -11,8 +11,8 @@ class CommentEntity:
         'city_id',
     )
 
-    def __init__(self, _first_name: str, _last_name: str, _city_id: int = '', 
-                _second_name: str = None, _phone: str = None, _email: str = None, _text: str = None):
+    def __init__(self, _first_name: str, _last_name: str, _text: str, _city_id: int = None, 
+                _second_name: str = None, _phone: str = None, _email: str = None):
         """
         Конструктор
         Args:

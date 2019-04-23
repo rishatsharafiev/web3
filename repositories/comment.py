@@ -23,3 +23,4 @@ class CommentRepository:
             cursor = connection.cursor()
             cursor.execute(sql_string, prepared_statements)
             connection.commit()
+            return cursor.lastrowid

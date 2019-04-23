@@ -5,6 +5,11 @@
 sudo apt-get update && sudo apt-get install sqlite3 python3.6
 ``` 
 
+### Run server
+```
+python3 server.py
+``` 
+
 ### Framework feature list
 - [x] get template from file
 - [X] database connection
@@ -18,8 +23,8 @@ sudo apt-get update && sudo apt-get install sqlite3 python3.6
 - [x] fixtures
 - [x] entities
 - [x] repositories
-- [ ] views
-- [ ] add comments
+- [X] views
+- [x] add comments
 - [X] ajax region/city list
 - [ ] show comments
 - [ ] delete comments
