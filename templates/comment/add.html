@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Добавить комментарий</title>
+    <style>
+        .row {
+            margin-bottom: 10px;
+        }
+
+        .field {
+            padding: 3px 6px;
+        }
+
+        .button {
+            color: black;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <form action="/comment/" method="POST" id="add_form">
+        <div class="row">
+            Фамилия: <input type="text" name="last_name" id="last_name" class="field" placeholder="Ваша Фамилия">
+        </div>
+        <div class="row">
+            Имя: <input type="text" name="first_name" id="first_name" class="field" placeholder="Ваше Имя">
+        </div>
+        <div class="row">
+            Отчество: <input type="text" name="second_name" id="second_name" class="field" placeholder="Ваше Отчество">
+        </div>
+        <div class="row">
+            Регион: <select size="1" name="region" id="region">$region_options</select>
+        </div>
+        <div class="row">
+            Город:  <select size="1" name="city" id="city"></select>
+        </div>
+        <div class="row">
+            Контактный телефон: <input type="text" name="phone" id="phone" class="field" placeholder="Ваш телефон">
+        </div>
+        <div class="row">
+            E-mail: <input type="email" name="email" id="email" class="field" placeholder="Ваш email">
+        </div>
+        <div class="row">
+            Комментарий: <textarea rows="10" cols="45" name="text" id="text" class="field" placeholder="Ваш комментарий"></textarea>
+        </div>
+        <div class="row">
+            <input type="submit" value="Добавить" class="button">
+        </div>
+    </form>
+    <script>
+        function emailTest(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function phoneTest(phone) {
+            var re = /^\(\d{3}\)\s\d{7}$/;
+            return re.test(phone);
+        }
+
+        function phoneFormat(input){
+            input = input.replace(/\D/g,'');
+
+            input = input.substring(0,10);
+
+            var size = input.length;
+            if (size == 0) {
+                input = input;
+            } else if (size < 4) {
+                input = '(' + input;
+            }  else {
+                input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 10);
+            }
+            return input; 
+        }
+
+        function isRequired(id) {
+            var $element = document.getElementById(id);
+            if($element.value == '') {
+                $element.style.borderColor = 'red';
+                return false;
+            } else {
+                $element.style.borderColor = 'green';
+                return true;
+            }
+        }
+
+        function validatePhone(id) {
+            var $element = document.getElementById(id);
+            if($element.value == '') {
+                $element.style.borderColor = null;
+                return true;
+            } else if(!phoneTest($element.value)) {
+                $element.style.borderColor = 'red';
+                return false;
+            } else {
+                $element.style.borderColor = 'green';
+                return true;
+            }
+        }
+
+        function validateEmail(id) {
+            var $element = document.getElementById(id);
+            if($element.value == '') {
+                $element.style.borderColor = null;
+                return true;
+            } else if(!emailTest($element.value)) {
+                $element.style.borderColor = 'red';
+                return false;
+            } else {
+                $element.style.borderColor = 'green';
+                return true;
+            }
+        }
+
+        function formValidation(){
+            if(!isRequired('last_name')) {return false;}
+            if(!isRequired('first_name')) {return false;}
+            if(!validatePhone('phone')) {return false;}
+            if(!validateEmail('email')) {return false;}
+            if(!isRequired('text')) {return false;}
+        }
+
+        function fillCities() {
+            var $region = document.getElementById('region');
+            var $city = document.getElementById('city');
+
+            if(Number.isInteger($region.selectedIndex)) {
+                var $region_id = $region.options[$region.selectedIndex].value;
+            }
+            
+            var xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                var cities = JSON.parse(this.responseText);
+
+                $city.innerHTML = '';
+
+                for (var i = 0, len = cities.length; i < len; i++) {
+                    var $option = document.createElement('option');
+                    $option.innerHTML = cities[i].name;
+                    $option.value = cities[i].id;
+                    $city.appendChild($option);
+                }
+            };
+
+            if($region_id) {
+                xhttp.open("GET", "/city/" + $region_id + '/', true);
+                xhttp.send();
+            }
+        }
+
+        window.onload = function() {
+            /* validate form fields */ 
+            var $add_form = document.getElementById('add_form');
+            $add_form.onsubmit = formValidation;
+            $add_form.onchange = formValidation;
+
+            /* fill city options */ 
+            fillCities();
+            var $region = document.getElementById('region');
+            $region.onchange = fillCities;
+
+            /* phone formatter */
+            $phone = document.getElementById('phone');
+            $phone.addEventListener('keyup',function(evt){
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                $phone.value = phoneFormat($phone.value);
+            });
+        }
+        
+    </script>
+</body>
+</html>
