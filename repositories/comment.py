@@ -10,7 +10,8 @@ class CommentRepository:
     @staticmethod
     def get_all():
         sql_string = """SELECT comment.id, comment.first_name, comment.second_name, comment.last_name, 
-                        comment.phone, comment.email, comment.text AS region_name FROM comment;
+                        comment.phone, comment.email, comment.text AS region_name FROM comment
+                        ORDER BY id DESC;
                     """
 
         with get_connection() as connection:

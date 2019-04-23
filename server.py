@@ -7,5 +7,7 @@ from wsgi import application
 from utils.db import migrate
 migrate()
 
-httpd = make_server('localhost', 8080, application)
+from settings import HOST, PORT
+
+httpd = make_server(HOST, PORT, application)
 httpd.serve_forever()
