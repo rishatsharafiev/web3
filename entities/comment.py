@@ -2,6 +2,7 @@ class CommentEntity:
     """Comment entity"""
 
     __slots__ = (
+        'id',
         'first_name',
         'second_name',
         'last_name',
@@ -12,10 +13,11 @@ class CommentEntity:
     )
 
     def __init__(self, _first_name: str, _last_name: str, _text: str, _city_id: int = None, 
-                _second_name: str = None, _phone: str = None, _email: str = None):
+                _second_name: str = None, _phone: str = None, _email: str = None, _id: int = None):
         """
         Конструктор
         Args:
+            _id: ID Комментария
             _first_name: Имя
             _second_name: Отчество
             _last_name: Фамилия
@@ -24,6 +26,7 @@ class CommentEntity:
             _text: Текст
             _city_id: id города
         """
+        self.id = _id
         self.first_name = _first_name
         self.second_name = _second_name
         self.last_name = _last_name

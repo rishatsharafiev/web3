@@ -1,5 +1,5 @@
 from utils.template import get_template
-from utils.views import not_found
+from utils.views import method_not_allowed
 from utils.shortcuts import get_item
 from utils.http import redirect
 
@@ -8,7 +8,52 @@ from entities import CommentEntity
 
 class CommentView:
     """Comment View"""
-    
+
+    @staticmethod
+    def index(request, groups):
+        """Index comment"""
+        response_headers = [
+            ('Content-Type', 'text/html; charset=utf-8'),
+        ]
+        request_method = request.environ.get('REQUEST_METHOD')
+
+        if request_method == 'GET':
+            comment_entities = CommentRepository.get_all()
+            item_template = get_template('comment/item.html')
+            content = [item_template.safe_substitute(**{
+                'id': comment.id,
+                'first_name': comment.first_name,
+                'second_name': comment.second_name,
+                'last_name': comment.last_name,
+                'phone': comment.phone,
+                'email': comment.email,
+                'text': comment.text,
+            }) for comment in comment_entities]
+
+            response_context = {
+                'content': "".join(content)
+            }
+            response_body = get_template('comment/index.html').safe_substitute(**response_context)
+            response_status = 200
+            return (response_body, response_headers, response_status)
+        else:
+            return method_not_allowed(request, groups)
+
+    @staticmethod
+    def remove(request, groups):
+        """remove comment by pk"""
+        response_headers = [
+            ('Content-Type', 'text/html; charset=utf-8'),
+        ]
+        request_method = request.environ.get('REQUEST_METHOD')
+        comment_id = groups.group('comment_id')
+
+        if request_method == 'GET' and comment_id:
+            CommentRepository.remove(pk=comment_id)
+            return redirect(url='/view/')
+        else:
+            return method_not_allowed(request, groups)
+
     @staticmethod
     def add(request, groups):
         """Add new comment"""
@@ -45,22 +90,22 @@ class CommentView:
                 result = CommentRepository.create(comment_entity)
 
             if result:
-                return redirect(url='/comment/success')
+                return redirect(url='/comment/success/')
             else:
-                return redirect(url='/comment/fail')
+                return redirect(url='/comment/fail/')
         elif request_method == 'GET':
             regions = RegionRepository.get_all()
             option_template = get_template('comment/option.html')
             region_options = [option_template.safe_substitute(**{'id': region.id, 'name': region.name}) for region in regions]
 
             response_context = {
-                'region_options': region_options
+                'region_options': "".join(region_options)
             }
             response_body = get_template('comment/add.html').safe_substitute(**response_context)
             response_status = 200
             return (response_body, response_headers, response_status)
         else:
-            return not_found(request, groups)
+            return method_not_allowed(request, groups)
 
     @staticmethod
     def success(request, groups):

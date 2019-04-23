@@ -16,7 +16,6 @@ python3 server.py
 - [x] router
 - [x] is_ajax method
 - [x] request, response objects
-- [ ] refactoring
 
 ### Application feature list
 - [x] database sql
@@ -26,7 +25,7 @@ python3 server.py
 - [X] views
 - [x] add comments
 - [X] ajax region/city list
-- [ ] show comments
-- [ ] delete comments
+- [X] show comments
+- [X] delete comments
 - [ ] show statistic
 - [X] client side validation for email, phone etc

@@ -1,5 +1,5 @@
 import json
-from utils.views import not_found
+from utils.views import method_not_allowed
 
 from repositories import CityRepository
 
@@ -23,4 +23,4 @@ class CityView:
             response_body = json.dumps(cities_dict)
             return (response_body, response_headers, response_status)
         else:
-            return not_found(request, groups)
+            return method_not_allowed(request, groups)

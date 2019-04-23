@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-    <form action="/comment" method="POST" id="add_form">
+    <form action="/comment/" method="POST" id="add_form">
         <div class="row">
             Фамилия: <input type="text" name="last_name" id="last_name" class="field" placeholder="Ваша Фамилия">
         </div>
@@ -147,7 +147,7 @@
             };
 
             if($region_id) {
-                xhttp.open("GET", "/city/" + $region_id, true);
+                xhttp.open("GET", "/city/" + $region_id + '/', true);
                 xhttp.send();
             }
         }

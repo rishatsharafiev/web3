@@ -9,5 +9,6 @@ STATUS_CHOICES = {
     401: '401 Unauthorized',
     403: '403 Forbidden',
     404: STATUS_NOT_FOUND,
+    405: '405 Method Not Allowed',
     500: STATUS_INTERNAL_ERROR,
 }
